@@ -5,7 +5,7 @@ const bech32 = require('bech32')
 const secp256k1 = require('secp256k1')
 const Buffer = require('safe-buffer').Buffer
 const BN = require('bn.js')
-const bitcoinjsAddress = require('bitcoinjs-lib/src/address')
+const encoding = require('./encoding')
 const cloneDeep = require('lodash/cloneDeep')
 const coininfo = require('coininfo')
 
@@ -183,13 +183,13 @@ function fallbackAddressParser (words, network) {
 
   switch (version) {
     case 17:
-      address = bitcoinjsAddress.toBase58Check(addressHash, network.pubKeyHash)
+      address = encoding.toBase58Check(addressHash, network.pubKeyHash)
       break
     case 18:
-      address = bitcoinjsAddress.toBase58Check(addressHash, network.scriptHash)
+      address = encoding.toBase58Check(addressHash, network.scriptHash)
       break
     case 0:
-      address = bitcoinjsAddress.toBech32(addressHash, version, network.bech32)
+      address = encoding.toBech32(addressHash, version, network.bech32)
       break
   }
 
@@ -527,12 +527,12 @@ function encode (inputData, addDefaults) {
     if (addressHash === undefined || code === undefined) {
       let bech32addr, base58addr
       try {
-        bech32addr = bitcoinjsAddress.fromBech32(address)
+        bech32addr = encoding.fromBech32(address)
         addressHash = bech32addr.data
         code = bech32addr.version
       } catch (e) {
         try {
-          base58addr = bitcoinjsAddress.fromBase58Check(address)
+          base58addr = encoding.fromBase58Check(address)
           if (base58addr.version === coinTypeObj.pubKeyHash) {
             code = 17
           } else if (base58addr.version === coinTypeObj.scriptHash) {
