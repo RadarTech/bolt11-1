@@ -34,6 +34,7 @@ const VALIDWITNESSVERSIONS = [0]
 const BECH32CODES = {
   bc: 'bitcoin',
   tb: 'testnet',
+  sb: 'simnet',
   bcrt: 'regtest',
   ltc: 'litecoin',
   tltc: 'litecoin_testnet'
