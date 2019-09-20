@@ -723,6 +723,12 @@ function encode (inputData, addDefaults) {
 // also if anything is hard to read I'll comment.
 function decode (paymentRequest) {
   if (typeof paymentRequest !== 'string') throw new Error('Lightning Payment Request must be string')
+  let lightningPrefix = ''
+  // replace the 'lightning:' without affecting the case of the rest of the string
+  if (paymentRequest.slice(0, 10).toLowerCase() === 'lightning:') {
+    lightningPrefix = paymentRequest.slice(0, 10) // prefix in the original case LiGthNiNg:
+    paymentRequest = paymentRequest.slice(10)
+  }
   if (paymentRequest.slice(0, 2).toLowerCase() !== 'ln') throw new Error('Not a proper lightning payment request')
   let decoded = bech32.decode(paymentRequest, Number.MAX_SAFE_INTEGER)
   paymentRequest = paymentRequest.toLowerCase()
@@ -848,6 +854,7 @@ function decode (paymentRequest) {
     finalResult = Object.assign(finalResult, {timeExpireDate, timeExpireDateString})
   }
 
+  finalResult.paymentRequest = lightningPrefix.concat(finalResult.paymentRequest)
   return orderKeys(finalResult)
 }
 

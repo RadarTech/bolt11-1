@@ -146,6 +146,14 @@ fixtures.decode.valid.forEach((f) => {
 
     let signedData3 = lnpayreq.sign(signedData2, fixtures.privateKey)
 
+    // fix encode for prefix 'lightning:' in any case, restores the prefix after encode so same wont fail
+    if (f.paymentRequest.slice(0, 10).toLowerCase() === 'lightning:') {
+      encodedNoPriv.paymentRequest = f.paymentRequest.slice(0, 10).concat(encodedNoPriv.paymentRequest)
+      signedData.paymentRequest = f.paymentRequest.slice(0, 10).concat(signedData.paymentRequest)
+      encodedSignedData.paymentRequest = f.paymentRequest.slice(0, 10).concat(encodedSignedData.paymentRequest)
+      signedData2.paymentRequest = f.paymentRequest.slice(0, 10).concat(signedData2.paymentRequest)
+      signedData3.paymentRequest = f.paymentRequest.slice(0, 10).concat(signedData3.paymentRequest)
+    }
     t.same(f, encodedNoPriv)
     t.same(f, signedData)
     t.same(f, encodedSignedData)
