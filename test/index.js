@@ -154,7 +154,6 @@ fixtures.decode.valid.forEach((f) => {
       signedData2.paymentRequest = f.paymentRequest.slice(0, 10).concat(signedData2.paymentRequest)
       signedData3.paymentRequest = f.paymentRequest.slice(0, 10).concat(signedData3.paymentRequest)
     }
-
     t.same(f, encodedNoPriv)
     t.same(f, signedData)
     t.same(f, encodedSignedData)

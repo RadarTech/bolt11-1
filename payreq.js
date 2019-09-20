@@ -855,7 +855,6 @@ function decode (paymentRequest) {
   }
 
   finalResult.paymentRequest = lightningPrefix.concat(finalResult.paymentRequest)
-
   return orderKeys(finalResult)
 }
 
